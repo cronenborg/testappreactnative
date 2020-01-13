@@ -1,10 +1,17 @@
 import React from 'react';
-import { FlatList, ActivityIndicator, Text, View, StyleSheet, Button  } from 'react-native';
+import { FlatList, ActivityIndicator, Text, View, StyleSheet, Button, Alert  } from 'react-native';
 
 export default class MovieList extends React.Component {
 
   _onPressButton(item) {
-    alert(item.releaseYear)
+    Alert.alert(
+      'Release Year',
+      item.releaseYear,
+      [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ],
+      {cancelable: false},
+    );
   }
 
   constructor(props){

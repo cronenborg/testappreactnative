@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import MovieList from '../components/MovieList';
+import BatteryLevel from '../components/BatteryLevel';
 
 export default function HomeScreen() {
   return (
@@ -29,7 +30,7 @@ export default function HomeScreen() {
 
       <View style={styles.tabBarInfoContainer}>
         <Text style={styles.tabBarInfoText}>
-          footer
+          <BatteryLevel />
         </Text>
       </View>
     </View>
@@ -39,29 +40,6 @@ export default function HomeScreen() {
 HomeScreen.navigationOptions = {
   header: null,
 };
-
-function DevelopmentModeNotice() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more
-      </Text>
-    );
-
-    return (
-      <Text style={styles.developmentModeText}>
-        Development mode is enabled: your app will be slower but you can use
-        useful development tools. {learnMoreButton}
-      </Text>
-    );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode: your app will run at full speed.
-      </Text>
-    );
-  }
-}
 
 function handleLearnMorePress() {
   WebBrowser.openBrowserAsync(
@@ -145,7 +123,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   tabBarInfoText: {
-    fontSize: 17,
+    fontSize: 11,
     color: 'rgba(96,100,109, 1)',
     textAlign: 'center',
   },

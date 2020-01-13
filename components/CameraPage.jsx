@@ -1,8 +1,9 @@
 import React, { Component, useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity, CameraRoll, MediaLibrary } from 'react-native';
+import { Text, View, TouchableOpacity, Alert } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import { Ionicons } from '@expo/vector-icons';
+import * as MediaLibrary from 'expo-media-library';
 
 class MyCamera extends Component {
 
@@ -18,10 +19,21 @@ class MyCamera extends Component {
   
     takeSnapshot = async () => {
       if (this.cameraRef.current) {
-        let uri = this.cameraRef.current.takePictureAsync({
+        let uri = await this.cameraRef.current.takePictureAsync({
           base64: true
-        }).then(data => {
-            MediaLibrary.saveToLibraryAsync(data.uri);
+        }).then(async data => {
+            const asset = await MediaLibrary.createAssetAsync(data.uri);
+            console.log(asset);
+
+            Alert.alert(
+              'Picture Saved',
+              asset.filename,
+              [
+                {text: 'OK', onPress: () => console.log('OK Pressed')},
+              ],
+              {cancelable: false},
+            );
+
         }).catch(err => {
           console.log("err", err)}
         )
@@ -46,14 +58,30 @@ class MyCamera extends Component {
             }}>
               <View style={{width: 60, height: 60, backgroundColor: 'transparent'}} />
               <View style={{width: '100%', height: 60, backgroundColor: 'transparent', marginBottom: 120, alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', }}>
-                  <View style={{width: 60, height: 60, backgroundColor: 'transparent'}} />
+                  <TouchableOpacity 
+                      style={{
+                          width: 50,
+                          height: 50, 
+                          alignItems: 'center',
+                          backgroundColor: 'transparent',
+                          marginLeft: 50,
+                      }}
+                      onPress={() => {
+                          return true;
+                      }}
+                  >
+                      <Ionicons
+                          name='md-square-outline'
+                          size={50} 
+                          color='rgba(255,255,255,0.5)'
+                      />
+                  </TouchableOpacity>
                   <TouchableOpacity
                       style={{
                           width: 50,
                           height: 50, 
                           alignItems: 'center',
                           backgroundColor: 'transparent',
-                          marginLeft: 40,
                       }}
                       onPress={() => {
                           this.takeSnapshot();
